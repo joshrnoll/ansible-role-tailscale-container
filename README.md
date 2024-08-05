@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role creates a docker container using the community.general.docker_container module along with a [Tailscale container](https://tailscale.com/blog/docker-tailscale-guide) to serve as it's networking namespace. Containers will be automatically added to your Tailnet using an Authkey or OAuth Client secret. 
 
 Requirements
 ------------
