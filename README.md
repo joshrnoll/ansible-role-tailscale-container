@@ -6,10 +6,21 @@ This role creates a docker container using the community.general.docker_containe
 Requirements
 ------------
 
-<ul>
-  <li>[Tailscale Account](https://tailscale.com/)</li>
-  <li>A Tailscale [Auth key](https://tailscale.com/kb/1085/auth-keys) or [OAuth Client](https://tailscale.com/kb/1215/oauth-clients)</li>
-</ul>>
+You will need a [Tailscale Account](https://tailscale.com/) and a Tailscale [Auth key](https://tailscale.com/kb/1085/auth-keys) or [OAuth Client](https://tailscale.com/kb/1215/oauth-clients) secret for this role to run properly. It is recommended that you store your secret in Ansible vault, in a dictionary format like this:
+
+```YAML
+tailscale_containers_oauth_key:
+  key: <random-secret-string-here>
+```
+
+You can reference this variable with:
+```YAML
+"{{ tailscale_containers_oauth_key[key] }}"
+```
+
+Ensure you use ```--ask-vault-pass``` or the -J flag when calling your playbook. 
+
+The reason for the dictionary format is that I've found it plays nice with other Tailscale related roles that require this format. A simple key:value variable format should work for this role, but I recommend the dictionary format for consistency. 
 
 Role Variables
 --------------
@@ -38,8 +49,7 @@ container_commands: # Commands to run on container startup
 
 Dependencies
 ------------
-- **Docker** is required to be installed on the target node
-- You must have a Tailscale [Authey](https://tailscale.com/kb/1085/auth-keys) or [Oauth client](https://tailscale.com/kb/1215/oauth-clients) created.
+**Docker** is required to be installed on the target node
 
 
 Example Playbook
