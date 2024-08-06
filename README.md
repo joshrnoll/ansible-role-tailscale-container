@@ -6,14 +6,35 @@ This role creates a docker container using the community.general.docker_containe
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+<ul>
+  <li>[Tailscale Account](https://tailscale.com/)</li>
+  <li>A Tailscale [Auth key](https://tailscale.com/kb/1085/auth-keys) or [OAuth Client](https://tailscale.com/kb/1215/oauth-clients)</li>
+</ul>>
 
 Role Variables
 --------------
-| Variable | Description | Accepted Values | Example |
-| :--- | :--- | :--- | :--- |
-| **authkey:** | Your tailscale authkey or oauth client secret | If passed as a variable, this must be passed as a dictionary value | ***figure out how to put example codeblock in markdown table*** |
-| **service_name:** | The name of your service. This can be whatever you want to call the container. This will also be used to format the names of the container's data folder for its bind mounts. | **String** | my-plex-server |
+```YAML
+# Required variables with defaults
+no_serve: false
+https_container: false
+public: false
+serve_config: serve-config.json
+extra_args: ""
+userspace_networking: "true"
+
+# Required variables without defaults
+authkey: # Your Tailscale Auth key or Oath Client secret. It is recommended to use Ansible vault for this. 
+service_name: # The container's hostname as it will be added to your tailnet. This will also be used to create a sub-directory on the host for bind mounts. This sub-directory will be in the {{ ansible_user }}'s home directory.
+container_image: # Container's image (without tag appended)
+container_tag: # Container's tag
+
+# Optional variables 
+container_user: # User to run the container as -- advanced use only (generally not used)
+container_volumes: # Volumes in list format
+env_vars: # Environment variables in dictionary format
+container_labels: # Container labels in dictionary format
+container_commands: # Commands to run on container startup
+```
 
 Dependencies
 ------------
